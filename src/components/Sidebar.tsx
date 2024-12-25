@@ -1,17 +1,18 @@
 "use client";
 
-import { cn } from "@nextui-org/react";
+import { cn, Divider } from "@nextui-org/react";
 import { Logo } from "./Logo";
 import { useState } from "react";
 import { FiHome } from "react-icons/fi";
 import { SidebarLink } from "./SidebarLink";
-import { Separator } from "./Separator";
+// import { Separator } from "./Separator";
 
 export function Sidebar() {
   const [isCollapsed, setIsCollapsed] = useState(true);
 
   return (
     <aside
+      data-testid="Grinance"
       onMouseOver={() => setIsCollapsed(false)}
       onMouseLeave={() => setIsCollapsed(true)}
       className={cn(
@@ -22,7 +23,7 @@ export function Sidebar() {
       <Logo isCollapsed={isCollapsed} />
       <div className="flex flex-col w-full gap-2 mt-4">
         <SidebarLink href="/dashboard" isCollapsed={isCollapsed} label="Home" icon={<FiHome />} />
-        <Separator />
+        <Divider className="w-full" />
       </div>
     </aside>
   );
