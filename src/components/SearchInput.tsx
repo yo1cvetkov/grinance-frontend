@@ -5,10 +5,10 @@ export function SearchInput() {
   return (
     <Input
       classNames={{
-        base: "w-[200px] focus-within:w-[400px] transition-all duration-300 h-9",
-        mainWrapper: "h-full",
-        input: "text-small",
-        inputWrapper: "h-full font-normal text-default-500 bg-default-400/20 dark:bg-zinc-900",
+        base: "w-[200px] focus-within:w-[400px] focus:ring-emerald-500 transition-all duration-300 h-9",
+        mainWrapper: "h-full ring-emerald-500",
+        input: "text-sm",
+        inputWrapper: "h-full font-normal text-default-500 focus:ring-emerald-500 bg-default-400/20 dark:bg-zinc-900",
       }}
       placeholder="Type to search..."
       size="sm"

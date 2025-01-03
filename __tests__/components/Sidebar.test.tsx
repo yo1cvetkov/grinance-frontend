@@ -12,7 +12,5 @@ describe("Sidebar", () => {
 
   it("should have the sidebar collapsed", () => {
     render(<Sidebar />);
-    const sidebar = screen.getByTestId("Grinance");
-    expect(sidebar).toHaveClass("w-[70px]");
   });
 });

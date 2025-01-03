@@ -3,9 +3,9 @@
 import { cn, Divider } from "@nextui-org/react";
 import { Logo } from "./Logo";
 import { useState } from "react";
-import { FiHome } from "react-icons/fi";
+import { FiHome, FiRepeat } from "react-icons/fi";
 import { SidebarLink } from "./SidebarLink";
-// import { Separator } from "./Separator";
+import { IoWalletOutline } from "react-icons/io5";
 
 export function Sidebar() {
   const [isCollapsed, setIsCollapsed] = useState(true);
@@ -24,6 +24,8 @@ export function Sidebar() {
       <div className="flex flex-col w-full gap-2 mt-4">
         <SidebarLink href="/dashboard" isCollapsed={isCollapsed} label="Home" icon={<FiHome />} />
         <Divider className="w-full" />
+        <SidebarLink href="/dashboard/transactions" isCollapsed={isCollapsed} label="Transactions" icon={<FiRepeat />} />
+        <SidebarLink href="/dashboard/budget" isCollapsed={isCollapsed} label="Budget" icon={<IoWalletOutline />} />
       </div>
     </aside>
   );

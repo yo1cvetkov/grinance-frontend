@@ -20,9 +20,9 @@ export function SidebarLink({ href, isCollapsed, label, icon }: SidebarLinkProps
       <Link
         href={href}
         className={cn(
-          "flex p-2 items-center justify-start",
+          "flex p-2 items-center justify-start hover:bg-zinc-800 hover:text-zinc-300 transition-all duration-300 rounded-lg",
           !isCollapsed && "w-full justify-start",
-          isActive && "bg-zinc-900 text-zinc-200 font-semibold rounded-lg"
+          isActive && "bg-zinc-900 text-zinc-200 font-semibold rounded-lg hover:bg-zinc-900 hover:text-zinc-200"
         )}
       >
         <span className={"ml-[2px]"}>{icon}</span>
