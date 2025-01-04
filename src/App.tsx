@@ -1,11 +1,13 @@
-import { Button, NextUIProvider } from "@nextui-org/react";
+import { NextUIProvider } from "@nextui-org/react";
+import { BrowserRouter } from "react-router-dom";
+import { AppRoutes } from "./routes";
 
 function App() {
   return (
     <NextUIProvider>
-      <div className="text-red-500">
-        <Button>Click me</Button>
-      </div>
+      <BrowserRouter>
+        <AppRoutes />
+      </BrowserRouter>
     </NextUIProvider>
   );
 }
