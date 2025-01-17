@@ -1,13 +1,16 @@
 import { useForm } from "react-hook-form";
 import { registerSchema, RegisterSchemaType } from "../schemas/register";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/Form";
+import { Form, FormControl, FormDescription, FormError, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/Form";
 import { Input } from "@/components/ui/Input";
 import { cn } from "@/common/common.utils";
 import { Button } from "@/components/ui/Button";
 import { FiLoader } from "react-icons/fi";
 import { FcGoogle } from "react-icons/fc";
 import { Link } from "react-router-dom";
+import { useRegisterMutation } from "../services/register.service";
+import { AxiosError } from "axios";
+import { useLoginMutation } from "../services/login.service";
 
 export function RegisterForm() {
   const form = useForm<RegisterSchemaType>({
@@ -20,8 +23,15 @@ export function RegisterForm() {
     },
   });
 
+  const registerMutation = useRegisterMutation();
+  const loginMutation = useLoginMutation();
+
   const onSubmit = async (data: RegisterSchemaType) => {
-    console.log(data);
+    registerMutation.mutate(data, {
+      onSuccess: () => {
+        loginMutation.mutate({ username: data.username, password: data.password });
+      },
+    });
   };
 
   return (
@@ -36,7 +46,7 @@ export function RegisterForm() {
                 <FormLabel>Username</FormLabel>
                 <FormControl>
                   <Input
-                    disabled={form.formState.isSubmitting}
+                    disabled={form.formState.isSubmitting || registerMutation.isLoading}
                     placeholder="Enter your username"
                     className={cn(form.formState.errors.username?.message ? "border-destructive" : "")}
                     {...field}
@@ -54,7 +64,7 @@ export function RegisterForm() {
                 <FormLabel>Email</FormLabel>
                 <FormControl>
                   <Input
-                    disabled={form.formState.isSubmitting}
+                    disabled={form.formState.isSubmitting || registerMutation.isLoading}
                     placeholder="Enter your email"
                     type="email"
                     className={cn(form.formState.errors.email?.message ? "border-destructive" : "")}
@@ -73,7 +83,7 @@ export function RegisterForm() {
                 <FormLabel>Password</FormLabel>
                 <FormControl>
                   <Input
-                    disabled={form.formState.isSubmitting}
+                    disabled={form.formState.isSubmitting || registerMutation.isLoading}
                     placeholder="Create a password"
                     type="password"
                     className={cn(form.formState.errors.password?.message ? "border-destructive" : "")}
@@ -95,7 +105,7 @@ export function RegisterForm() {
                 <FormLabel>Confirm password</FormLabel>
                 <FormControl>
                   <Input
-                    disabled={form.formState.isSubmitting}
+                    disabled={form.formState.isSubmitting || registerMutation.isLoading}
                     placeholder="Re-type password"
                     type="password"
                     className={cn(form.formState.errors.confirmPassword?.message ? "border-destructive" : "")}
@@ -107,9 +117,14 @@ export function RegisterForm() {
             )}
           />
         </div>
+        {registerMutation.isError && (
+          <FormError>
+            {(registerMutation.error as AxiosError).isAxiosError ? ((registerMutation.error as AxiosError)?.response?.data as string) : "An error occured"}
+          </FormError>
+        )}
         <div className="space-y-4 mt-6">
-          <Button disabled={form.formState.isSubmitting} className="w-full">
-            {form.formState.isSubmitting ? <FiLoader className="animate-spin" /> : "Get started"}
+          <Button disabled={form.formState.isSubmitting || registerMutation.isLoading} className="w-full">
+            {form.formState.isSubmitting || registerMutation.isLoading ? <FiLoader className="animate-spin" /> : "Get started"}
           </Button>
           <Button variant={"outline"} className="w-full" disabled>
             <FcGoogle />
