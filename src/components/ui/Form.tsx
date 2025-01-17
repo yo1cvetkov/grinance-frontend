@@ -5,6 +5,7 @@ import { Controller, ControllerProps, FieldPath, FieldValues, FormProvider, useF
 import { cn } from "../../common/common.utils";
 import { Label } from "../../components/ui/Label";
 import { createContext, forwardRef, useContext, useId } from "react";
+import { FiXCircle } from "react-icons/fi";
 
 const Form = FormProvider;
 
@@ -91,7 +92,7 @@ FormControl.displayName = "FormControl";
 const FormDescription = forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLParagraphElement>>(({ className, ...props }, ref) => {
   const { formDescriptionId } = useFormField();
 
-  return <p ref={ref} id={formDescriptionId} className={cn("text-sm text-muted-foreground", className)} {...props} />;
+  return <p ref={ref} id={formDescriptionId} className={cn("text-xs text-muted-foreground", className)} {...props} />;
 });
 FormDescription.displayName = "FormDescription";
 
@@ -111,4 +112,14 @@ const FormMessage = forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLPa
 });
 FormMessage.displayName = "FormMessage";
 
-export { useFormField, Form, FormItem, FormLabel, FormControl, FormDescription, FormMessage, FormField };
+const FormError = forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLParagraphElement>>(({ children, ...props }, ref) => {
+  return (
+    <FormMessage className="mt-4 bg-red-50 shadow-xs border-red-500/20 border px-3 rounded-sm py-1.5 flex items-center gap-x-2" {...props} ref={ref}>
+      <FiXCircle size={12} className="text-red-500" />
+      {children}
+    </FormMessage>
+  );
+});
+FormError.displayName = "FormError";
+
+export { useFormField, Form, FormItem, FormLabel, FormControl, FormDescription, FormMessage, FormField, FormError };

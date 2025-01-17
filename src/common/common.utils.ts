@@ -21,6 +21,37 @@ export const passwordValidationSchema = (fieldName: string) =>
       "Password is too weak"
     );
 
+export const isDateNotInFuture = (fieldName: string) =>
+  z.string({ required_error: `${fieldName} is required` }).refine(
+    (value) => {
+      const date = new Date(value);
+
+      const today = new Date();
+
+      return date <= today;
+    },
+    {
+      message: "Date cannot be in the future.",
+    }
+  );
+
+export const isAdultSchema = (fieldName: string) =>
+  z.string({ required_error: `${fieldName} is required` }).refine(
+    (value) => {
+      const date = new Date(value);
+      const today = new Date();
+
+      const age = today.getFullYear() - date.getFullYear();
+
+      const hadBirthdayThisYear = today.getMonth() > date.getMonth() || (today.getMonth() === date.getMonth() && today.getDate() >= date.getDate());
+
+      return age > 18 || (age === 18 && hadBirthdayThisYear);
+    },
+    {
+      message: "You must be at least 18 years old.",
+    }
+  );
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }

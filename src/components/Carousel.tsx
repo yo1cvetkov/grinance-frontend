@@ -49,7 +49,6 @@ export const useAutoplayProgress = <ProgressElement extends HTMLElement>(
 
     if (!animationName.current) {
       const style = window.getComputedStyle(node);
-      console.log(style);
       animationName.current = style.animationName;
     }
 
