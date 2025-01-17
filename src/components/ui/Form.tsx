@@ -112,9 +112,13 @@ const FormMessage = forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLPa
 });
 FormMessage.displayName = "FormMessage";
 
-const FormError = forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLParagraphElement>>(({ children, ...props }, ref) => {
+const FormError = forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLParagraphElement>>(({ children, className, ...props }, ref) => {
   return (
-    <FormMessage className="mt-4 bg-red-50 shadow-xs border-red-500/20 border px-3 rounded-sm py-1.5 flex items-center gap-x-2" {...props} ref={ref}>
+    <FormMessage
+      className={cn("mt-4 bg-red-50 shadow-xs border-red-500/20 border px-3 rounded-sm py-1.5 flex items-center gap-x-2", className)}
+      {...props}
+      ref={ref}
+    >
       <FiXCircle size={12} className="text-red-500" />
       {children}
     </FormMessage>

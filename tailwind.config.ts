@@ -17,9 +17,14 @@ export default {
           "0%": { transform: "translate3d(0,0,0)" },
           "100%": { transform: "translate3d(100%,0,0)" },
         },
+        "caret-blink": {
+          "0%,70%,100%": { opacity: "1" },
+          "20%,50%": { opacity: "0" },
+        },
       },
       animation: {
         progress: "progress linear 1 forwards",
+        "caret-blink": "caret-blink 1.25s ease-out infinite",
       },
       colors: {
         border: "hsl(var(--border))",
