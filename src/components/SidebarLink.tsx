@@ -23,7 +23,7 @@ export function SidebarLink({ href, isCollapsed, label, icon }: SidebarLinkProps
       )}
     >
       <span className={"ml-[2px]"}>{icon}</span>
-      <span className={cn("text-sm ml-3 transition-all duration-300", isCollapsed && "w-0 opacity-0 overflow-hidden")}>{label}</span>
+      <span className={cn("text-sm ml-3 transition-all duration-300", isCollapsed && "w-0 opacity-0 sr-only overflow-hidden")}>{label}</span>
     </Link>
   );
 }

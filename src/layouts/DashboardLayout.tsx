@@ -22,8 +22,10 @@ export function DashboardLayout() {
       ) : user?.activeAccount === null && isCreateAccountActive ? (
         <CreateAccountDialog isCreateAccountOpen={isCreateAccountActive} setIsCreateAccountOpen={setIsCreateAccountActive} />
       ) : null}
-      <div className="flex">
-        <Sidebar />
+      <div className="flex min-h-screen">
+        <div className="p-1">
+          <Sidebar />
+        </div>
         <div className="flex-1">
           <Header />
           <Outlet />

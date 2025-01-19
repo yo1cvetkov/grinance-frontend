@@ -14,7 +14,6 @@ import { ForgotPassword } from "./pages/ForgotPassword";
 import { ResetPassword } from "./pages/ResetPassword";
 import { NewPassword } from "./pages/NewPassword";
 import { SuccessResetPassword } from "./pages/SuccessResetPassword";
-import { SelectAccount } from "./pages/SelectAccount";
 
 const queryClient = new QueryClient();
 
@@ -31,11 +30,8 @@ const router = createBrowserRouter(
         <Route path="/success" element={<SuccessResetPassword />} />
         <Route path="/new-password" element={<NewPassword />} />
       </Route>
-      <Route loader={protectedRouteLoader(queryClient)}>
-        <Route element={<DashboardLayout />} loader={protectedRouteLoader(queryClient)}>
-          <Route path="dashboard" element={<DashboardHome />} />
-        </Route>
-        <Route path="/select-account" element={<SelectAccount />} />
+      <Route element={<DashboardLayout />} loader={protectedRouteLoader(queryClient)}>
+        <Route path="dashboard" element={<DashboardHome />} />
       </Route>
     </>
   )
@@ -46,7 +42,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
       <SnackbarProvider />
-      <ReactQueryDevtools initialIsOpen={false} position="bottom-left" />
+      <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
     </QueryClientProvider>
   );
 }
