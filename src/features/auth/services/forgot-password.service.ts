@@ -3,6 +3,11 @@ import { useMutation } from "react-query";
 import { ForgotPasswordSchemaType } from "../schemas/forgot-password";
 import { useNavigate } from "react-router-dom";
 
+type ForgotPasswordResponse = {
+  email: string;
+  message: string;
+};
+
 const forgotPassword = async (data: ForgotPasswordSchemaType) => await axios.post("/auth/forget-password", data);
 
 export const useForgotPasswordMutation = () => {
@@ -10,7 +15,7 @@ export const useForgotPasswordMutation = () => {
 
   return useMutation({
     mutationFn: (data: ForgotPasswordSchemaType) => forgotPassword(data).then((res) => res.data),
-    onSuccess: (data: { email: string; message: string }) => {
+    onSuccess: (data: ForgotPasswordResponse) => {
       navigate(`/reset-password?email=${data.email}`, { viewTransition: true });
     },
   });

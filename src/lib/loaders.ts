@@ -37,3 +37,20 @@ export const authRouteLoader =
       return null;
     }
   };
+
+export const accountSelectionLoader =
+  (queryClient: QueryClient): LoaderFunction =>
+  async () => {
+    const user = queryClient.getQueryData(["user"]);
+
+    if (!user) {
+      return redirect("/login");
+    }
+
+    // @ts-expect-error temp
+    if (user.activeAccount) {
+      return true;
+    } else {
+      return redirect("/select-account");
+    }
+  };

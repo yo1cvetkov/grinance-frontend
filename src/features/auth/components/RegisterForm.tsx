@@ -18,6 +18,8 @@ export function RegisterForm() {
     defaultValues: {
       email: "",
       username: "",
+      name: "",
+      birthDate: "",
       confirmPassword: "",
       password: "",
     },
@@ -56,6 +58,45 @@ export function RegisterForm() {
               </FormItem>
             )}
           />
+          <div className="flex items-start gap-x-5">
+            <FormField
+              control={form.control}
+              name="birthDate"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Birthday</FormLabel>
+                  <FormControl>
+                    <Input
+                      disabled={form.formState.isSubmitting || registerMutation.isLoading}
+                      placeholder="Enter your birthday"
+                      type="date"
+                      className={cn(form.formState.errors.birthDate?.message ? "border-destructive" : "")}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Name</FormLabel>
+                  <FormControl>
+                    <Input
+                      disabled={form.formState.isSubmitting || registerMutation.isLoading}
+                      placeholder="Enter your name"
+                      className={cn(form.formState.errors.name?.message ? "border-destructive" : "")}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
           <FormField
             control={form.control}
             name="email"

@@ -14,6 +14,7 @@ import { ForgotPassword } from "./pages/ForgotPassword";
 import { ResetPassword } from "./pages/ResetPassword";
 import { NewPassword } from "./pages/NewPassword";
 import { SuccessResetPassword } from "./pages/SuccessResetPassword";
+import { SelectAccount } from "./pages/SelectAccount";
 
 const queryClient = new QueryClient();
 
@@ -30,8 +31,11 @@ const router = createBrowserRouter(
         <Route path="/success" element={<SuccessResetPassword />} />
         <Route path="/new-password" element={<NewPassword />} />
       </Route>
-      <Route element={<DashboardLayout />} loader={protectedRouteLoader(queryClient)}>
-        <Route path="dashboard" element={<DashboardHome />} />
+      <Route loader={protectedRouteLoader(queryClient)}>
+        <Route element={<DashboardLayout />} loader={protectedRouteLoader(queryClient)}>
+          <Route path="dashboard" element={<DashboardHome />} />
+        </Route>
+        <Route path="/select-account" element={<SelectAccount />} />
       </Route>
     </>
   )

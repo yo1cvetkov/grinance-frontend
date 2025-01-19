@@ -22,7 +22,7 @@ export const passwordValidationSchema = (fieldName: string) =>
     );
 
 export const isDateNotInFuture = (fieldName: string) =>
-  z.string({ required_error: `${fieldName} is required` }).refine(
+  z.string({ required_error: `${fieldName} is required.` }).refine(
     (value) => {
       const date = new Date(value);
 
@@ -36,7 +36,7 @@ export const isDateNotInFuture = (fieldName: string) =>
   );
 
 export const isAdultSchema = (fieldName: string) =>
-  z.string({ required_error: `${fieldName} is required` }).refine(
+  z.string({ required_error: `${fieldName} is required.` }).refine(
     (value) => {
       const date = new Date(value);
       const today = new Date();

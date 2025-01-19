@@ -1,10 +1,12 @@
 import axios from "@/lib/axios";
 import { useMutation, useQuery } from "react-query";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { LoginSchemaType } from "../schemas/login";
+import { User } from "@/types/User";
 
-const login = async (data: { username: string; password: string }) => await axios.post("/auth/login", data);
+const login = async (data: LoginSchemaType) => await axios.post("/auth/login", data);
 
-export const fetchUser = async () => {
+export const fetchUser = async (): Promise<User> => {
   const res = await axios.get("/auth/whoAmI");
   return res.data;
 };
@@ -24,7 +26,7 @@ export const useLoginMutation = () => {
   const href = searchParams.get("redirectTo") || "/dashboard";
 
   return useMutation({
-    mutationFn: (data: { username: string; password: string }) => login(data),
+    mutationFn: (data: LoginSchemaType) => login(data),
     onSuccess: () => {
       navigate(href, {
         viewTransition: true,
