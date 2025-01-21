@@ -3,6 +3,7 @@ import validator from "validator";
 
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { Currency } from "@/types/CurrencyEnum";
 
 export const passwordValidationSchema = (fieldName: string) =>
   z
@@ -54,4 +55,15 @@ export const isAdultSchema = (fieldName: string) =>
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
+}
+
+export function declareCurrency(curr: Currency) {
+  switch (curr) {
+    case "EUR":
+      return "€";
+    case "USD":
+      return "$";
+    default:
+      return "";
+  }
 }

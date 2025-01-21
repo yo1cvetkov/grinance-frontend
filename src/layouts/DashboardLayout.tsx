@@ -28,7 +28,7 @@ export function DashboardLayout() {
         </div>
         <div className="flex-1">
           <Header />
-          <Outlet />
+          {user?.activeAccount?.balance === 0 ? <div className="flex justify-center items-center">Define the budget</div> : <Outlet />}
         </div>
       </div>
     </>
