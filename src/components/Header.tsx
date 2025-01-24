@@ -23,7 +23,7 @@ export function Header() {
             </div>
           </div>
         </header>
-        <AddBalanceDrawer activeCurrency={user.activeAccount.currency} isOpen={isAddBudgetActive} setIsOpen={setIsAddBudgetActive} />
+        <AddBalanceDrawer activeAccount={user.activeAccount} isOpen={isAddBudgetActive} setIsOpen={setIsAddBudgetActive} />
       </>
     );
   }

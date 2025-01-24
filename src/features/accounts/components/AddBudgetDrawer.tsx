@@ -5,19 +5,23 @@ import { FiMinus, FiPlus } from "react-icons/fi";
 import { CurrencySelect } from "./CurrencySelect";
 import { cn, declareCurrency } from "@/common/common.utils";
 import { Currency } from "@/types/CurrencyEnum";
+import { FullAccount } from "@/types/Account";
+import { useEditAccountMutation } from "../services/edit-account.service";
 
 interface AddBalanceDrawerProps {
   isOpen: boolean;
   setIsOpen: React.Dispatch<SetStateAction<boolean>>;
-  activeCurrency: Currency;
+  activeAccount: FullAccount;
 }
 
-export function AddBalanceDrawer({ isOpen, setIsOpen, activeCurrency }: AddBalanceDrawerProps) {
+export function AddBalanceDrawer({ isOpen, setIsOpen, activeAccount }: AddBalanceDrawerProps) {
   const [balance, setBalance] = useState(1000000.23);
 
   const [step, setStep] = useState(100);
 
-  const [currency, setCurrency] = useState<Currency>(activeCurrency);
+  const [currency, setCurrency] = useState<Currency>(activeAccount.currency);
+
+  const editAccountMutation = useEditAccountMutation();
 
   const onBalanceDecrease = () => {
     if (step >= balance) {
@@ -30,6 +34,10 @@ export function AddBalanceDrawer({ isOpen, setIsOpen, activeCurrency }: AddBalan
 
   const onBalanceIncrease = () => {
     setBalance((prev) => prev + step);
+  };
+
+  const onSubmit = () => {
+    editAccountMutation.mutate({ balance, name: activeAccount.name, currency, id: activeAccount.id });
   };
 
   return (
@@ -102,7 +110,7 @@ export function AddBalanceDrawer({ isOpen, setIsOpen, activeCurrency }: AddBalan
           {/* TODO: Enter manually feature */}
           {/* <div>Enter manually</div> */}
           <DrawerFooter>
-            <Button>Submit</Button>
+            <Button onClick={onSubmit}>Submit</Button>
             <Button variant={"outline"}>Cancel</Button>
           </DrawerFooter>
         </div>
