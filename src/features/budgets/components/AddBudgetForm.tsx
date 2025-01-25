@@ -8,9 +8,18 @@ import { FiMinus, FiPlus } from "react-icons/fi";
 import { cn, declareCurrency } from "@/common/common.utils";
 import { useState } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/Select";
+import { useCategories } from "@/features/categories/services/get-categories.service";
+import { Textarea } from "@/components/ui/Textarea";
+import { useCreateBudgetMutation } from "../services/create-budget.service";
+import { useQueryClient } from "react-query";
+import { useNavigate } from "react-router-dom";
 
 export function AddBudgetForm({ activeAccount }: { activeAccount: FullAccount }) {
   const [step, setStep] = useState(1000);
+
+  const queryClient = useQueryClient();
+
+  const navigate = useNavigate();
 
   const form = useForm<AddBudgetSchemaType>({
     resolver: zodResolver(addBudgetSchema),
@@ -22,13 +31,33 @@ export function AddBudgetForm({ activeAccount }: { activeAccount: FullAccount })
     },
   });
 
+  const { data: categories, isLoading } = useCategories();
+
+  const createBudgetMutation = useCreateBudgetMutation();
+
   const onSubmit = (data: AddBudgetSchemaType) => {
-    console.log(data);
+    const payload: AddBudgetSchemaType = {
+      ...data,
+      amount: Number(data.amount.toFixed(1)),
+    };
+
+    createBudgetMutation.mutate(payload, {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["budgets", data.accountId]);
+        navigate(`/dashboard/budgets`, {
+          viewTransition: true,
+        });
+      },
+    });
   };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="pt-8 space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="pt-8 grid grid-cols-2">
         <FormField
           control={form.control}
           name="amount"
@@ -104,7 +133,7 @@ export function AddBudgetForm({ activeAccount }: { activeAccount: FullAccount })
                     size="icon"
                     className="h-8 w-8 shrink-0 rounded-full"
                     onClick={() => {
-                      field.onChange(field.value + step);
+                      field.onChange(field.value.toPrecision(2) + step);
                     }}
                   >
                     <FiPlus />
@@ -116,30 +145,55 @@ export function AddBudgetForm({ activeAccount }: { activeAccount: FullAccount })
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="categoryId"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="font-semibold">
-                Choose budget category <span className="text-primary">*</span>
-              </FormLabel>
-              <Select onValueChange={field.onChange}>
+        <div className="space-y-4">
+          <FormField
+            control={form.control}
+            name="categoryId"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="font-semibold">
+                  Choose budget category <span className="text-primary">*</span>
+                </FormLabel>
+                <Select onValueChange={field.onChange}>
+                  <FormControl>
+                    <SelectTrigger className="max-w-[500px]">
+                      <SelectValue placeholder="Select budget category" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {categories?.map((cat) => (
+                      <SelectItem value={cat.id} key={cat.id}>
+                        {cat.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="font-semibold">
+                  Enter budget description <span className="text-primary">*</span>
+                </FormLabel>
                 <FormControl>
-                  <SelectTrigger className="max-w-[500px]">
-                    <SelectValue placeholder="Select budget category" />
-                  </SelectTrigger>
+                  <Textarea placeholder="Enter budget description here..." className="resize-none max-w-[500px]" {...field} />
                 </FormControl>
-                <SelectContent>
-                  <SelectItem value="7db35505-ea77-42ae-bb08-5d02fcfa2917">Food</SelectItem>
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <Button type="submit">Submit</Button>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        <div className="flex gap-x-2 col-start-2 justify-end max-w-[500px] mt-8">
+          <Button type="button" variant={"outline"}>
+            Cancel
+          </Button>
+          <Button type="submit">Create budget</Button>
+        </div>
       </form>
     </Form>
   );
