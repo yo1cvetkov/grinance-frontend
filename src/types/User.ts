@@ -1,4 +1,4 @@
-import { Account, FullAccount } from "./Account";
+import { FullAccount } from "./Account";
 
 export type User = {
   id: string;
@@ -6,6 +6,6 @@ export type User = {
   username: string;
   birthDate: string;
   name: string;
-  accounts: Account[];
+  accounts: FullAccount[];
   activeAccount: FullAccount | null;
 };
