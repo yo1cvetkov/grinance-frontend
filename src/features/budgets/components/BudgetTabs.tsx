@@ -1,9 +1,11 @@
 import { buttonVariants } from "@/components/ui/Button";
 import { useAccountBudgets } from "../services/account-budgets.service";
 import { FullAccount } from "@/types/Account";
-import { FiPlus } from "react-icons/fi";
+import { FiPlus, FiPlusCircle } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { cn } from "@/common/common.utils";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/Tabs";
+import { BudgetTransactions } from "./BudgetTransactions";
 
 export function BudgetTabs({ activeAccount }: { activeAccount: FullAccount }) {
   const { data: budgets, isLoading } = useAccountBudgets(activeAccount?.id);
@@ -26,10 +28,28 @@ export function BudgetTabs({ activeAccount }: { activeAccount: FullAccount }) {
   }
 
   return (
-    <div>
-      {budgets?.map((budget) => (
-        <div>{budget.category.name}</div>
+    <Tabs defaultValue="all" onValueChange={(value) => console.log(value)} className="mt-4">
+      <div className="flex items-center gap-x-4">
+        <TabsList>
+          <TabsTrigger value="all">All</TabsTrigger>
+          {budgets?.map((budget) => (
+            <TabsTrigger key={budget.id} value={budget.id}>
+              {budget.category.name}
+            </TabsTrigger>
+          ))}
+        </TabsList>
+        <Link to={"/dashboard/budgets/add"} viewTransition className={cn(buttonVariants({ variant: "ghost", size: "icon" }), "text-primary shadow-none")}>
+          <FiPlusCircle />
+        </Link>
+      </div>
+      <TabsContent value="all">
+        <BudgetTransactions budget={null} activeAccount={activeAccount} />
+      </TabsContent>
+      {budgets.map((budget) => (
+        <TabsContent key={budget.id} value={budget.id}>
+          <BudgetTransactions budget={budget} activeAccount={activeAccount} />
+        </TabsContent>
       ))}
-    </div>
+    </Tabs>
   );
 }

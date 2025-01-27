@@ -18,6 +18,8 @@ import { UserSettings } from "./pages/UserSettings";
 import { AccountSettings } from "./pages/AccountSettings";
 import { Budgets } from "./pages/Budgets";
 import { AddBudget } from "./pages/AddBudget";
+import { Transactions } from "./pages/Transactions";
+import { AddTransaction } from "./pages/AddTransaction";
 
 const queryClient = new QueryClient();
 
@@ -40,6 +42,8 @@ const router = createBrowserRouter(
         <Route path="dashboard/account-settings" element={<AccountSettings />} />
         <Route path="dashboard/budgets" element={<Budgets />} />
         <Route path="dashboard/budgets/add" element={<AddBudget />} />
+        <Route path="dashboard/transactions" element={<Transactions />} />
+        <Route path="dashboard/transactions/add" element={<AddTransaction />} />
       </Route>
     </>
   )

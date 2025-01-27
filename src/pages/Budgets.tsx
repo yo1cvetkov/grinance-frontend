@@ -17,7 +17,9 @@ export function Budgets() {
         <h1 className="text-2xl text-zinc-900 font-semibold">Budgets overview</h1>
         <p className="text-sm text-muted-foreground">Select a budget that you want to see transaction history for...</p>
       </div>
-      <BudgetTabs activeAccount={user?.activeAccount as FullAccount} />
+      <div>
+        <BudgetTabs activeAccount={user?.activeAccount as FullAccount} />
+      </div>
     </section>
   );
 }

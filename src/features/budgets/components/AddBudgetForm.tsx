@@ -105,6 +105,7 @@ export function AddBudgetForm({ activeAccount }: { activeAccount: FullAccount })
               <div className="p-4 pb-0 max-w-lg">
                 <div className="flex items-center w-full justify-center space-x-10">
                   <Button
+                    type="button"
                     variant="outline"
                     size="icon"
                     className="h-8 w-8 shrink-0 rounded-full"
@@ -129,11 +130,12 @@ export function AddBudgetForm({ activeAccount }: { activeAccount: FullAccount })
                     </div>
                   </div>
                   <Button
+                    type="button"
                     variant="outline"
                     size="icon"
                     className="h-8 w-8 shrink-0 rounded-full"
                     onClick={() => {
-                      field.onChange(field.value.toPrecision(2) + step);
+                      field.onChange(field.value + step);
                     }}
                   >
                     <FiPlus />
