@@ -1,6 +1,6 @@
 import axios from "@/lib/axios";
 import { AddTransactionSchemaType } from "../schema/add-transaction";
-import { useMutation } from "react-query";
+import { useMutation } from "@tanstack/react-query";
 
 const createTransaction = async (data: AddTransactionSchemaType) => await axios.post(`/transactions/one-time/`, data);
 

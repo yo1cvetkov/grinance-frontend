@@ -1,6 +1,6 @@
 import { RegisterSchemaType } from "../schemas/register";
 import axios from "@/lib/axios";
-import { useMutation } from "react-query";
+import { useMutation } from "@tanstack/react-query";
 
 const register = async (data: RegisterSchemaType) => await axios.post("/auth/register", data);
 

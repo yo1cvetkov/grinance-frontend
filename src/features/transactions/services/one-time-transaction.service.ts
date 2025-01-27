@@ -1,8 +1,9 @@
 import axios from "@/lib/axios";
-import { useQuery } from "react-query";
+import { PaginatedTransactions } from "@/types/Transaction";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
-const getAllOneTimeTransactions = async (accountId: string, page?: number, limit?: string, budgetId?: string) =>
-  await axios.get(`/transactions/one-time/${accountId}`, {
+const getOneTimeTransactions = async (accountId: string, page?: number, limit?: string, budgetId?: string) => {
+  const res = await axios.get(`/transactions/one-time/${accountId}`, {
     params: {
       page,
       limit,
@@ -10,9 +11,12 @@ const getAllOneTimeTransactions = async (accountId: string, page?: number, limit
     },
   });
 
-export const useAllOneTimeTransactions = (accountId: string, page?: number, limit?: string, budgetId?: string) => {
-  return useQuery(
-    [
+  return res.data;
+};
+
+export const useOneTimeTransactions = ({ accountId, budgetId, limit, page }: { accountId: string; page?: number; limit?: string; budgetId?: string }) => {
+  return useQuery<PaginatedTransactions>({
+    queryKey: [
       "transactions",
       accountId,
       {
@@ -21,9 +25,8 @@ export const useAllOneTimeTransactions = (accountId: string, page?: number, limi
         budgetId,
       },
     ],
-    () => getAllOneTimeTransactions(accountId, page, limit, budgetId),
-    {
-      staleTime: 15 * 60 * 1000,
-    }
-  );
+    queryFn: () => getOneTimeTransactions(accountId, page, limit, budgetId),
+    staleTime: 15 * 60 * 1000,
+    placeholderData: keepPreviousData,
+  });
 };

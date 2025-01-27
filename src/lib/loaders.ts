@@ -1,5 +1,5 @@
 import { fetchUser } from "@/features/auth/services/login.service";
-import { QueryClient } from "react-query";
+import { QueryClient } from "@tanstack/react-query";
 import { LoaderFunction, redirect } from "react-router-dom";
 
 export const protectedRouteLoader =
@@ -8,7 +8,7 @@ export const protectedRouteLoader =
     try {
       const user = queryClient.getQueryData(["user"]);
       if (!user) {
-        const data = await queryClient.fetchQuery(["user"], fetchUser);
+        const data = await queryClient.fetchQuery({ queryKey: ["user"], queryFn: fetchUser });
         return data;
       }
 
@@ -30,7 +30,7 @@ export const authRouteLoader =
         return redirect("/dashboard");
       }
 
-      await queryClient.fetchQuery(["user"], fetchUser);
+      await queryClient.fetchQuery({ queryKey: ["user"], queryFn: fetchUser });
 
       return redirect("/dashboard");
     } catch {

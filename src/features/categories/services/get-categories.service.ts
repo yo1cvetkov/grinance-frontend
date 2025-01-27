@@ -1,6 +1,6 @@
 import axios from "@/lib/axios";
 import { Category } from "@/types/Category";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 
 const getCategories = async () => {
   const res = await axios.get("/categories");
@@ -8,7 +8,5 @@ const getCategories = async () => {
 };
 
 export const useCategories = () => {
-  return useQuery<Category[]>(["category"], getCategories, {
-    staleTime: 15 * 60 * 1000,
-  });
+  return useQuery<Category[]>({ queryKey: ["category"], queryFn: getCategories, staleTime: 15 * 60 * 1000 });
 };

@@ -10,6 +10,14 @@ export type OneTimeTransaction = {
   category: Category;
   createdAt: string;
   updatedAt: string;
-  transactionType: TransactionType;
+  type: TransactionType;
   transactionDate: string;
+};
+
+export type PaginatedTransactions = {
+  transactions: OneTimeTransaction[];
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
 };

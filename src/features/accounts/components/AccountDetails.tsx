@@ -11,7 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { declareCurrency } from "@/common/common.utils";
 import { useEditAccountMutation } from "../services/edit-account.service";
 import { enqueueSuccess } from "@/lib/snackbar";
-import { useQueryClient } from "react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { FiAlertTriangle } from "react-icons/fi";
 
 // FIXME: Bug if user submits the nonedited default budget
@@ -36,7 +36,7 @@ export function AccountDetails({ activeAccount }: { activeAccount: FullAccount }
   const onSubmit = (data: EditAccountSchemaType) => {
     editAccountMutation.mutate(data, {
       onSuccess: () => {
-        queryClient.invalidateQueries(["user"]);
+        queryClient.invalidateQueries({ queryKey: ["user"] });
 
         enqueueSuccess("Account information updated.");
 

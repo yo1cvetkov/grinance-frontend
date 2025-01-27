@@ -11,7 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useCategories } from "@/features/categories/services/get-categories.service";
 import { Textarea } from "@/components/ui/Textarea";
 import { useCreateBudgetMutation } from "../services/create-budget.service";
-import { useQueryClient } from "react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 
 export function AddBudgetForm({ activeAccount }: { activeAccount: FullAccount }) {
@@ -43,7 +43,7 @@ export function AddBudgetForm({ activeAccount }: { activeAccount: FullAccount })
 
     createBudgetMutation.mutate(payload, {
       onSuccess: () => {
-        queryClient.invalidateQueries(["budgets", data.accountId]);
+        queryClient.invalidateQueries({ queryKey: ["budgets", data.accountId] });
         navigate(`/dashboard/budgets`, {
           viewTransition: true,
         });

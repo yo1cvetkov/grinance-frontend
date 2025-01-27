@@ -1,6 +1,6 @@
 import axios from "@/lib/axios";
 import { EditAccountSchemaType } from "../schemas/edit-account";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const editAccount = async ({ id, ...data }: EditAccountSchemaType) => await axios.put(`/accounts/${id}`, data);
 

@@ -1,5 +1,5 @@
 import axios from "@/lib/axios";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { LoginSchemaType } from "../schemas/login";
 import { User } from "@/types/User";
@@ -12,11 +12,7 @@ export const fetchUser = async (): Promise<User> => {
 };
 
 export const useUser = () => {
-  return useQuery(["user"], fetchUser, {
-    staleTime: 15 * 60 * 1000,
-    cacheTime: 15 * 60 * 1000,
-    retry: false,
-  });
+  return useQuery({ queryKey: ["user"], queryFn: fetchUser, staleTime: 15 * 60 * 1000, retry: false });
 };
 
 export const useLoginMutation = () => {

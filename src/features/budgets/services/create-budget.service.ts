@@ -1,6 +1,6 @@
 import axios from "@/lib/axios";
 import { AddBudgetSchemaType } from "../schema/add-budget";
-import { useMutation } from "react-query";
+import { useMutation } from "@tanstack/react-query";
 
 const createBudget = async (data: AddBudgetSchemaType) => await axios.post("/budgets", data);
 

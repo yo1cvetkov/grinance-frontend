@@ -1,5 +1,5 @@
 import axios from "@/lib/axios";
-import { useMutation } from "react-query";
+import { useMutation } from "@tanstack/react-query";
 import { ForgotPasswordSchemaType } from "../schemas/forgot-password";
 import { useNavigate } from "react-router-dom";
 

@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/Dialog";
 import { SetStateAction } from "react";
 import { useSelectAccountMutation } from "../services/select-account.service";
-import { useQueryClient } from "react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { enqueueError, enqueueSuccess } from "@/lib/snackbar";
 
 interface ConfirmSwitchAccountDialogProps {
@@ -21,7 +21,7 @@ export function ConfirmSwitchAccountDialog({ accountId, isOpen, setIsOpen }: Con
       { id: accountId },
       {
         onSuccess: () => {
-          queryClient.invalidateQueries(["user"]);
+          queryClient.invalidateQueries({ queryKey: ["user"] });
           enqueueSuccess("Account switched.");
           setIsOpen(false);
         },
