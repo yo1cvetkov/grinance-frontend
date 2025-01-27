@@ -23,7 +23,7 @@ export function Sidebar() {
         <div className="flex flex-col w-full items-center gap-2 mt-4">
           <SidebarLink href="/dashboard" isCollapsed={isCollapsed} label="Home" icon={<FiHome />} />
           <SidebarLink href="/dashboard/transactions" isCollapsed={isCollapsed} label="Transactions" icon={<FiRepeat />} />
-          <SidebarLink href="/dashboard/budget" isCollapsed={isCollapsed} label="Budget" icon={<IoWalletOutline />} />
+          <SidebarLink href="/dashboard/budgets" isCollapsed={isCollapsed} label="Budget" icon={<IoWalletOutline />} />
         </div>
       </div>
       <AccountPopover isCollapsed={isCollapsed} />

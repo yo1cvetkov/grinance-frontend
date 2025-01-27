@@ -2,7 +2,7 @@ import { Label } from "@/components/ui/Label";
 import { Account } from "@/types/Account";
 import { FiArrowRight } from "react-icons/fi";
 import { useSelectAccountMutation } from "../services/select-account.service";
-import { useQueryClient } from "react-query";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface SelectAccountItem {
   account: Account;
@@ -18,7 +18,7 @@ export function SelectAccountItem({ account }: SelectAccountItem) {
       { id: account.id },
       {
         onSuccess: () => {
-          queryClient.invalidateQueries(["user"]);
+          queryClient.invalidateQueries({ queryKey: ["user"] });
         },
       }
     );

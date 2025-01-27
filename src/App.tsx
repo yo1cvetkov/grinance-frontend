@@ -1,6 +1,6 @@
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from "react-router-dom";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { ReactQueryDevtools } from "react-query/devtools";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { SnackbarProvider } from "notistack";
 import { Home } from "./pages/Home";
 import { AuthLayout } from "./layouts/AuthLayout";
@@ -14,6 +14,12 @@ import { ForgotPassword } from "./pages/ForgotPassword";
 import { ResetPassword } from "./pages/ResetPassword";
 import { NewPassword } from "./pages/NewPassword";
 import { SuccessResetPassword } from "./pages/SuccessResetPassword";
+import { UserSettings } from "./pages/UserSettings";
+import { AccountSettings } from "./pages/AccountSettings";
+import { Budgets } from "./pages/Budgets";
+import { AddBudget } from "./pages/AddBudget";
+import { Transactions } from "./pages/Transactions";
+import { AddTransaction } from "./pages/AddTransaction";
 
 const queryClient = new QueryClient();
 
@@ -30,8 +36,14 @@ const router = createBrowserRouter(
         <Route path="/success" element={<SuccessResetPassword />} />
         <Route path="/new-password" element={<NewPassword />} />
       </Route>
-      <Route element={<DashboardLayout />} loader={protectedRouteLoader(queryClient)}>
-        <Route path="dashboard" element={<DashboardHome />} />
+      <Route path="/" element={<DashboardLayout />} loader={protectedRouteLoader(queryClient)}>
+        <Route index path="dashboard" element={<DashboardHome />} />
+        <Route path="dashboard/user-settings" element={<UserSettings />} />
+        <Route path="dashboard/account-settings" element={<AccountSettings />} />
+        <Route path="dashboard/budgets" element={<Budgets />} />
+        <Route path="dashboard/budgets/add" element={<AddBudget />} />
+        <Route path="dashboard/transactions" element={<Transactions />} />
+        <Route path="dashboard/transactions/add" element={<AddTransaction />} />
       </Route>
     </>
   )
@@ -42,7 +54,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
       <SnackbarProvider />
-      <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
+      <ReactQueryDevtools initialIsOpen={false} position="bottom" />
     </QueryClientProvider>
   );
 }

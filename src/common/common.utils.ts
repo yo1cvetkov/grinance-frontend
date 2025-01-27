@@ -67,3 +67,14 @@ export function declareCurrency(curr: Currency) {
       return "";
   }
 }
+
+export function declareCurrencyFlag(curr: Currency): string {
+  switch (curr) {
+    case "EUR":
+      return "/eu.png";
+    case "USD":
+      return "/us.png";
+    default:
+      return "";
+  }
+}

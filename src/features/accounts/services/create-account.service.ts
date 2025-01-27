@@ -1,7 +1,7 @@
 import axios from "@/lib/axios";
 
 import { CreateAccountSchemaType } from "../schemas/create-account";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { enqueueSuccess } from "@/lib/snackbar";
 
 const createAccount = async (data: CreateAccountSchemaType) => await axios.post("/accounts", data);
@@ -13,7 +13,7 @@ export const useCreateAccountMutation = () => {
     mutationFn: (data: CreateAccountSchemaType) => createAccount(data),
     onSuccess: () => {
       enqueueSuccess("Account created.");
-      queryClient.invalidateQueries(["user"]);
+      queryClient.invalidateQueries({ queryKey: ["user"] });
     },
   });
 };

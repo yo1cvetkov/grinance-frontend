@@ -1,5 +1,5 @@
-import { cn } from "@/common/common.utils";
-import { Button } from "@/components/ui/Button";
+import { cn, declareCurrency } from "@/common/common.utils";
+import { Button, buttonVariants } from "@/components/ui/Button";
 import { Label } from "@/components/ui/Label";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/RadioGroup";
@@ -11,7 +11,7 @@ import { useState } from "react";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { FiCircle, FiLogOut, FiPlus, FiSettings, FiUser } from "react-icons/fi";
 import { HiOutlineChevronUpDown } from "react-icons/hi2";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ConfirmSwitchAccountDialog } from "./ConfirmSwitchAccountDialog";
 
 interface AccountPopoverProps {
@@ -51,14 +51,14 @@ export function AccountPopover({ isCollapsed }: AccountPopoverProps) {
               <HiOutlineChevronUpDown size={20} />
             </PopoverTrigger>
             <PopoverContent side="right" align="end" className={cn("p-0", !isCollapsed && "ml-10")}>
-              <Button variant={"ghost"} className="w-full justify-start shadow-none">
+              <Link to={"/dashboard/user-settings"} className={cn(buttonVariants({ variant: "ghost" }), "w-full justify-start shadow-none")}>
                 <FiUser size={20} />
                 User settings
-              </Button>
-              <Button variant={"ghost"} className="w-full justify-start shadow-none">
+              </Link>
+              <Link to={"/dashboard/account-settings"} className={cn(buttonVariants({ variant: "ghost" }), "w-full justify-start shadow-none")}>
                 <FiSettings size={20} />
                 Account settings
-              </Button>
+              </Link>
               <Separator />
               <span className="px-4 py-1 text-xs font-semibold text-zinc-700">Switch accounts</span>
               <RadioGroup
@@ -77,7 +77,10 @@ export function AccountPopover({ isCollapsed }: AccountPopoverProps) {
                           {account.name}
                           {user.activeAccount?.id === account.id && <FiCircle size={8} className="fill-primary text-transparent" />}
                         </div>
-                        <span className="text-xs text-muted-foreground">Balance: N/A</span>
+                        <span className="text-xs text-muted-foreground">
+                          Balance: {declareCurrency(account.currency)}
+                          {account.balance.toLocaleString()}
+                        </span>
                       </div>
                     </Label>
 

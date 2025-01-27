@@ -1,5 +1,5 @@
 import axios from "@/lib/axios";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 
 const logout = async () => await axios.post("/auth/logout");

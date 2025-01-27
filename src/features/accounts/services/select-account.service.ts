@@ -1,5 +1,5 @@
 import axios from "@/lib/axios";
-import { useMutation } from "react-query";
+import { useMutation } from "@tanstack/react-query";
 
 const selectAccount = async (accountId: string) =>
   await axios.patch(`/users/active-account`, null, {
